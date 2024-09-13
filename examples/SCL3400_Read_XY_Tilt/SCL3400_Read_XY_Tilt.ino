@@ -1,6 +1,6 @@
-/* Read Tilt angles from Murata SCL3400 Inclinometer
- * Version 0.1.0 - September 12, 2024
- * Example1_BasicTiltLevelOffset
+/* Read Data from Murata SCL3400 Inclinometer
+ * Version 0.1.0 - September 13, 2024
+ * SCL3400_Read_XY_Tilt
 */
 
 #include <SPI.h>
@@ -25,20 +25,26 @@ void setup() {
   }
   Serial.println("Murata SCL3400 inclinometer connected.");
 
-  inclinometer.setMode(3);
+  inclinometer.setMode(SCL3400_MODE_B); // Set the mode to A (-90, 90 degrees)
 
 }
 
 void loop() {
   if (inclinometer.available()) { //Get next block of data from sensor
+    Serial.print("X_acc:");
+    Serial.print(inclinometer.getCalculatedAccelerometerX(), 6);
+    Serial.print(",");
     Serial.print("X_Tilt:");
-    Serial.print(inclinometer.getcalculateTiltX(), 6);;
+    Serial.print(inclinometer.getcalculateTiltX(), 6);
+    Serial.print(",");
+    Serial.print("Y_acc:");
+    Serial.print(inclinometer.getCalculatedAccelerometerY(), 6);
     Serial.print(",");
     Serial.print("Y_Tilt:");
-    Serial.print(inclinometer.getcalculateTiltY(), 6);;
+    Serial.print(inclinometer.getcalculateTiltY(), 6);
     Serial.print(",");
     Serial.print("Temp:");
-    Serial.println(inclinometer.getCalculatedTemperatureCelsius(), 6);;
+    Serial.println(inclinometer.getCalculatedTemperatureCelsius(), 6);
     delay(10); //Allow a little time to see the output
   } else inclinometer.reset();
   // Serial.println("Loop");

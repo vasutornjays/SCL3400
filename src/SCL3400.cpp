@@ -304,23 +304,23 @@ double SCL3400::getCalculatedTemperatureFarenheit(void) {
 
 // Function to calculate tilt angle along the X-axis
 double SCL3400::getcalculateTiltX(void) {
-    float accelX = acceleration(sclData.AccX);
     float accelY = acceleration(sclData.AccY);
-    return atan2(accelX, accelY) * RAD_TO_DEG;
+    float roll = -asinf(accelY);
+    return roll * RAD_TO_DEG;
 }
 
 // Function to calculate tilt angle along the Y-axis
 double SCL3400::getcalculateTiltY(void) {
     float accelX = acceleration(sclData.AccX);
-    float accelY = acceleration(sclData.AccY);
-    return atan2(accelY, accelX)* RAD_TO_DEG;
+    float pitch = asinf(accelX);
+    return pitch * RAD_TO_DEG;
 }
 
  //Convert raw accelerometer value to g's of acceleration
 double SCL3400::acceleration(int16_t SCL3400_ACC) { //two's complement value expected
   // Return acceleration in g
-  if (scl3400_mode == 1) return (double)SCL3400_ACC / 32768.; // Mode A
-  if (scl3400_mode == 3) return (double)SCL3400_ACC / 16384.; // Mode B
+  if (scl3400_mode == SCL3400_MODE_A) return (double)SCL3400_ACC / 32768.; // Mode A
+  if (scl3400_mode == SCL3400_MODE_B) return (double)SCL3400_ACC / 16384.; // Mode B
   return (double)SCL3400_ACC / 32768.; //Default should never be reached
 }
 

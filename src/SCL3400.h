@@ -62,6 +62,9 @@ Distributed as-is; no warranty is given.
 #endif
 
 //Define allowed commands to SCL3400 inclinometer
+#define SCL3400_MODE_A    1
+#define SCL3400_MODE_B    4
+
 #define RdAccX		0x040000f7
 #define RdAccY		0x080000fd
 #define RdTemp		0x140000ef
@@ -130,7 +133,7 @@ class SCL3400 {
     SPIClass *_spiPort = NULL;  //The generic connection to user's chosen spi hardware
 
     uint8_t scl3400_csPin = 5; // Default SPI chip select pin
-    uint8_t scl3400_mode = 4; // Default inclinometer mode
+    uint8_t scl3400_mode = 1; // Default inclinometer mode (MODE A)
     uint8_t SCL3400_CMD, SCL3400_CRC;
     uint16_t SCL3400_DATA;
 
@@ -149,6 +152,6 @@ class SCL3400 {
       unsigned int bit16[2];
       unsigned char bit8[4];
     };
-    unsigned long modeCMD[4]  = { 0, ChgModeA, 0, ChgModeB};
+    unsigned long modeCMD[5]  = { 0, ChgModeA, 0, 0, ChgModeB};
 };
 #endif
